@@ -32,7 +32,7 @@ resource "aws_security_group" "sg" {
   }
 }
 
-resource "aws_instance" "instance-1" {
+resource "aws_instance" "nginx" {
   ami                    = "${data.aws_ami.ubuntu.id}"
   instance_type          = "t2.micro"
   key_name               = "${var.aws_key_name}"
@@ -53,6 +53,18 @@ resource "aws_instance" "instance-1" {
   }
 }
 
-output "public-ip" {
-  value = "${aws_instance.instance-1.public_ip}"
+resource "aws_instance" "postgresql" {
+  ami                    = "${data.aws_ami.ubuntu.id}"
+  instance_type          = "t2.micro"
+  key_name               = "${var.aws_key_name}"
+  vpc_security_group_ids = ["${aws_security_group.sg.id}"]
+  user_data              = "${file("install.sh")}"
+}
+
+output "nginx-ip" {
+  value = "${aws_instance.nginx.public_ip}"
+}
+
+output "postgres-ip" {
+  value = "${aws_instance.nginx.public_ip}"
 }
