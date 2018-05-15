@@ -53,7 +53,7 @@ resource "aws_instance" "nginx" {
   }
 }
 
-resource "aws_instance" "postgresql" {
+resource "aws_instance" "postgresql-server" {
   ami                    = "${data.aws_ami.ubuntu.id}"
   instance_type          = "t2.micro"
   key_name               = "${var.aws_key_name}"
@@ -65,6 +65,6 @@ output "nginx-ip" {
   value = "${aws_instance.nginx.public_ip}"
 }
 
-output "postgres-ip" {
-  value = "${aws_instance.nginx.public_ip}"
+output "postgresql-ip" {
+  value = "${aws_instance.postgresql-server.public_ip}"
 }
