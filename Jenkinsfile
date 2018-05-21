@@ -5,8 +5,8 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('aws_access_key')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
-        TF_VAR_aws_key_name = 'gmlp'
-        TF_VAR_my_private_key_path = credentials('gmlp')
+        TF_VAR_parkey = 'humiranda'
+        TF_VAR_my_private_key = credentials('vmim')
     }
     stages {
         stage('init') {

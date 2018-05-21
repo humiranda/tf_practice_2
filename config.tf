@@ -5,7 +5,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "terraform-states-syseng"
-    key    = "gmlp/p2/terraform.tfstate"
+    key    = "vmim/p2/terraform.tfstate"
     region = "us-west-1"
   }
 }

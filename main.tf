@@ -14,7 +14,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_security_group" "sg" {
-  name = "gmlp-ssh"
+  name = "vmim-ssh"
 
   // SSH
   ingress {
@@ -35,20 +35,20 @@ resource "aws_security_group" "sg" {
 resource "aws_instance" "nginx" {
   ami                    = "${data.aws_ami.ubuntu.id}"
   instance_type          = "t2.micro"
-  key_name               = "${var.aws_key_name}"
+  key_name               = "${var.parkey}"
   vpc_security_group_ids = ["${aws_security_group.sg.id}"]
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = "${file("${var.my_private_key_path}")}"
+      private_key = "${file("${var.my_private_key}")}"
     }
 
     inline = [
       "sudo apt update",
       "sudo apt install -y nginx",
-      "sudo apt update",
+      
     ]
   }
 }
@@ -56,7 +56,7 @@ resource "aws_instance" "nginx" {
 resource "aws_instance" "postgresql-server" {
   ami                    = "${data.aws_ami.ubuntu.id}"
   instance_type          = "t2.micro"
-  key_name               = "${var.aws_key_name}"
+  key_name               = "${var.parkey}"
   vpc_security_group_ids = ["${aws_security_group.sg.id}"]
   user_data              = "${file("install.sh")}"
 }
